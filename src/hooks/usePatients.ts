@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Patient } from '../types/Patient';
 
@@ -12,6 +11,7 @@ export const usePatients = () => {
     if (savedPatients) {
       const parsedPatients = JSON.parse(savedPatients).map((p: any) => ({
         ...p,
+        vitalSigns: p.vitalSigns || {},
         createdAt: new Date(p.createdAt),
         updatedAt: new Date(p.updatedAt),
       }));
@@ -27,6 +27,7 @@ export const usePatients = () => {
   const addPatient = (patientData: Omit<Patient, 'id' | 'createdAt' | 'updatedAt'>) => {
     const newPatient: Patient = {
       ...patientData,
+      vitalSigns: patientData.vitalSigns || {},
       id: crypto.randomUUID(),
       createdAt: new Date(),
       updatedAt: new Date(),

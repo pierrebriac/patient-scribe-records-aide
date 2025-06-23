@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,9 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Patient, AudioRecording } from '../types/Patient';
+import { Patient, AudioRecording, VitalSigns } from '../types/Patient';
 import { AudioRecorder } from './AudioRecorder';
 import { ImageUploader } from './ImageUploader';
+import { VitalSignsForm } from './VitalSignsForm';
 import { Save, ArrowLeft } from 'lucide-react';
 
 interface PatientFormProps {
@@ -29,6 +29,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
     notes: '',
     images: [] as string[],
     audioRecordings: [] as AudioRecording[],
+    vitalSigns: {} as VitalSigns,
   });
 
   useEffect(() => {
@@ -44,6 +45,7 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
         notes: patient.notes,
         images: patient.images,
         audioRecordings: patient.audioRecordings,
+        vitalSigns: patient.vitalSigns || {},
       });
     }
   }, [patient]);
@@ -198,6 +200,11 @@ export const PatientForm: React.FC<PatientFormProps> = ({ patient, onSave, onCan
             </div>
           </CardContent>
         </Card>
+
+        <VitalSignsForm
+          vitalSigns={formData.vitalSigns}
+          onChange={(vitalSigns) => setFormData(prev => ({ ...prev, vitalSigns }))}
+        />
 
         <Card>
           <CardHeader>
